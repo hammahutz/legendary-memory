@@ -1,3 +1,5 @@
+require("love")
+require("settings")
 local Mouse = require("debug.mouse")
 
 local objects = {}
@@ -22,6 +24,14 @@ function love.mousepressed(x, y, button, istouch, presses)
 		if obj.mousepressed then
 			obj:mousepressed(x, y, button, istouch, presses)
 		end
+	end
+end
+
+function love.keypressed(key)
+	if key == "escape" then
+		love.event.quit()
+	elseif key == "f1" then
+		SETTINGS.debug = not SETTINGS.debug
 	end
 end
 

@@ -27,6 +27,9 @@ local buttonMap = {
 }
 
 function Mouse:mousemoved(x, y, dx, dy)
+	if not SETTINGS.debug then
+		return
+	end
 	self.pos.x = x
 	self.pos.y = y
 	self.delta.x = dx
@@ -34,6 +37,9 @@ function Mouse:mousemoved(x, y, dx, dy)
 end
 
 function Mouse:mousepressed(x, y, button, _, presses)
+	if not SETTINGS.debug then
+		return
+	end
 	self.presses.pos.x = x
 	self.presses.pos.y = y
 	self.presses.button = buttonMap[button]
@@ -44,11 +50,17 @@ function Mouse:mousepressed(x, y, button, _, presses)
 end
 
 function Mouse:wheelmoved(dx, dt)
+	if not SETTINGS.debug then
+		return
+	end
 	self.wheel.dx = dx
 	self.wheel.dy = dt
 end
 
 function Mouse:draw()
+	if not SETTINGS.debug then
+		return
+	end
 	love.graphics.print(
 		"Mouse Position: x: "
 			.. self.pos.x
