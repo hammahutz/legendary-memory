@@ -1,10 +1,12 @@
-require("love")
-require("settings")
+require("conf")
+require("data.settings")
+
 local Mouse = require("debug.mouse")
 
 local objects = {}
 
 function love.load()
+	SETTINGS.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 
@@ -31,7 +33,7 @@ function love.keypressed(key)
 	if key == "escape" then
 		love.event.quit()
 	elseif key == "f1" then
-		SETTINGS.debug = not SETTINGS.debug
+		SETTINGS.set("debug", not SETTINGS.data.debug)
 	end
 end
 
@@ -49,4 +51,6 @@ function love.draw()
 			obj:draw()
 		end
 	end
+
+	love.graphics.rectangle("fill", 390, 500, 10, 10)
 end
