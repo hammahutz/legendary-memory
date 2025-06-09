@@ -1,12 +1,9 @@
-require("conf")
-require("data.settings")
+require("requier")
 
 local Mouse = require("debug.mouse")
-
 local objects = {}
 
 function love.load()
-	SETTINGS.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 

@@ -1,4 +1,5 @@
 SETTINGS = {}
+
 local baseSetting = {
 	version = "1.0.0",
 	debug = true,
@@ -32,7 +33,7 @@ local function toString()
 	return table.concat(result)
 end
 
-function SETTINGS.load()
+local function load()
 	local file, loadErr = love.filesystem.load("settings.lua")
 
 	if not file then
@@ -95,3 +96,5 @@ function SETTINGS.set(key, value)
 		error("Could not save settings: " .. err)
 	end
 end
+
+load()
