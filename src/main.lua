@@ -1,4 +1,4 @@
-require("requier")
+require("require")
 
 local Mouse = require("debug.mouse")
 local objects = {}
@@ -18,16 +18,17 @@ function love.mousemoved(x, y, dx, dy)
 	end
 end
 
-function love.mousepressed(x, y, button, istouch, presses)
+function love.mousepressed(x, y, button, isTouched, presses)
 	for _, obj in ipairs(objects) do
 		if obj.mousepressed then
-			obj:mousepressed(x, y, button, istouch, presses)
+			obj:mousepressed(x, y, button, isTouched, presses)
 		end
 	end
 end
 
 function love.keypressed(key)
 	if key == "escape" then
+
 		love.event.quit()
 	elseif key == "f1" then
 		SETTINGS.set("debug", not SETTINGS.data.debug)
@@ -41,6 +42,17 @@ function love.wheelmoved(dx, dy)
 		end
 	end
 end
+
+function love.update()
+	for _, obj in ipairs(objects) do
+		if obj.draw then
+			obj:draw()
+		end
+	end
+
+	love.graphics.rectangle("fill", 390, 500, 10, 10)
+end
+
 
 function love.draw()
 	for _, obj in ipairs(objects) do
