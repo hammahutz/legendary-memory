@@ -1,65 +1,45 @@
 require("require")
+StateManager = require("states.state-manager")
+StateDebug = require("states.state-debug")
+StateOne = require("states.state-one")
 
-local Mouse = require("debug.mouse")
-local objects = {}
+local states = StateManager:new()
+local debugState = StateDebug:new()
 
 function love.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 
-	table.insert(objects, Mouse:new())
+	print("Loading states...")
+	states:addState("one", StateOne:new())
+	print("State 'one' loaded.")
 end
 
 function love.mousemoved(x, y, dx, dy)
-	for _, obj in ipairs(objects) do
-		if obj.mousemoved then
-			obj:mousemoved(x, y, dx, dy)
-		end
-	end
+	states:mousemoved(x, y, dx, dy)
+	debugState:mousemoved(x, y, dx, dy)
 end
 
 function love.mousepressed(x, y, button, isTouched, presses)
-	for _, obj in ipairs(objects) do
-		if obj.mousepressed then
-			obj:mousepressed(x, y, button, isTouched, presses)
-		end
-	end
+	states:mousepressed(x, y, button, isTouched, presses)
+	debugState:mousepressed(x, y, button, isTouched, presses)
 end
 
 function love.keypressed(key)
-	if key == "escape" then
-
-		love.event.quit()
-	elseif key == "f1" then
-		SETTINGS.set("debug", not SETTINGS.data.debug)
-	end
+	states:keypressed(key)
+	debugState:keypressed(key)
 end
 
 function love.wheelmoved(dx, dy)
-	for _, obj in ipairs(objects) do
-		if obj.wheelmoved then
-			obj:mousepressed(dx, dy)
-		end
-	end
+	states:wheelmoved(dx, dy)
+	debugState:wheelmoved(dx, dy)
 end
 
-function love.update()
-	for _, obj in ipairs(objects) do
-		if obj.draw then
-			obj:draw()
-		end
-	end
-
-	love.graphics.rectangle("fill", 390, 500, 10, 10)
+function love.update(dt)
+	states:update(dt)
 end
-
 
 function love.draw()
-	for _, obj in ipairs(objects) do
-		if obj.draw then
-			obj:draw()
-		end
-	end
-
-	love.graphics.rectangle("fill", 390, 500, 10, 10)
+	states:draw()
+	debugState:draw()
 end

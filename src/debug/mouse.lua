@@ -1,51 +1,43 @@
-local Mouse = {}
-function Mouse:new()
-	local obj = {
+local Mouse = {
+	pos = { x = 0, y = 0 },
+	delta = { x = 0, y = 0 },
+	presses = {
 		pos = { x = 0, y = 0 },
-		delta = { x = 0, y = 0 },
-		presses = {
-			pos = { x = 0, y = 0 },
-			button = 0,
-			press = 0,
-		},
-		wheel = { dx = 0, dy = 0 },
+		button = 0,
+		press = 0,
+	},
+	wheel = { dx = 0, dy = 0 },
+	buttonMap = {
+		[1] = "left click",
+		[2] = "right click",
+		[3] = "middle click",
+		[4] = "backward",
+		[5] = "forward",
+		[6] = "scroll up",
+		[7] = "scroll down",
 	}
-
-	setmetatable(obj, self)
-	self.__index = self
-	return obj
-end
-
-local buttonMap = {
-	[1] = "left click",
-	[2] = "right click",
-	[3] = "middle click",
-	[4] = "backward",
-	[5] = "forward",
-	[6] = "scroll up",
-	[7] = "scroll down",
 }
 
 function Mouse:mousemoved(x, y, dx, dy)
 	if not SETTINGS.data.debug then
 		return
 	end
-	self.pos.x = x
-	self.pos.y = y
-	self.delta.x = dx
-	self.delta.y = dy
+	Mouse.pos.x = x
+	Mouse.pos.y = y
+	Mouse.delta.x = dx
+	Mouse.delta.y = dy
 end
 
 function Mouse:mousepressed(x, y, button, _, presses)
 	if not SETTINGS.data.debug then
 		return
 	end
-	self.presses.pos.x = x
-	self.presses.pos.y = y
-	self.presses.button = buttonMap[button]
+	Mouse.presses.pos.x = x
+	Mouse.presses.pos.y = y
+	Mouse.presses.button = Mouse.buttonMap[button]
 		or (not button and y <= 0 and "scroll down" or "scroll up")
 		or "unknown button"
-	self.presses.press = presses or 0
+	Mouse.presses.press = presses or 0
 	print(button)
 end
 
@@ -53,8 +45,8 @@ function Mouse:wheelmoved(dx, dt)
 	if not SETTINGS.data.debug then
 		return
 	end
-	self.wheel.dx = dx
-	self.wheel.dy = dt
+	Mouse.wheel.dx = dx
+	Mouse.wheel.dy = dt
 end
 
 function Mouse:draw()
@@ -63,27 +55,27 @@ function Mouse:draw()
 	end
 	love.graphics.print(
 		"Mouse Position: x: "
-			.. self.pos.x
-			.. ", y:"
-			.. self.pos.y
-			.. ", dx: "
-			.. self.delta.x
-			.. ", dy: "
-			.. self.delta.y
-			.. "\nPresse: x:"
-			.. self.presses.pos.x
-			.. ", y:"
-			.. self.presses.pos.y
-			.. " button  "
-			.. self.presses.button
-			.. ", presses: "
-			.. self.presses.press
-			.. "\nWheel: dx: "
-			.. self.wheel.dx
-			.. ", dy: "
-			.. self.wheel.dy,
-		self.pos.x,
-		self.pos.y + 30
+		.. Mouse.pos.x
+		.. ", y:"
+		.. Mouse.pos.y
+		.. ", dx: "
+		.. Mouse.delta.x
+		.. ", dy: "
+		.. Mouse.delta.y
+		.. "\nPresse: x:"
+		.. Mouse.presses.pos.x
+		.. ", y:"
+		.. Mouse.presses.pos.y
+		.. " button  "
+		.. Mouse.presses.button
+		.. ", presses: "
+		.. Mouse.presses.press
+		.. "\nWheel: dx: "
+		.. Mouse.wheel.dx
+		.. ", dy: "
+		.. Mouse.wheel.dy,
+		Mouse.pos.x,
+		Mouse.pos.y + 30
 	)
 end
 
