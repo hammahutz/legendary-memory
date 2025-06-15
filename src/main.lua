@@ -10,9 +10,8 @@ function love.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 
-	print("Loading states...")
 	states:addState("one", StateOne:new())
-	print("State 'one' loaded.")
+	states:addState("two", StateOne:new())
 end
 
 function love.mousemoved(x, y, dx, dy)
