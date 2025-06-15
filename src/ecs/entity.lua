@@ -1,45 +1,51 @@
 local Entity = {}
 
-Entity.__index = Entity
-
-function Entity:new()
-	local instance = setmetatable({
-		components = {},
-	}, Entity)
-
-	return instance
-end
-
 function Entity:addComponent(...)
-	if not self.components then
-		self.components = {}
-	end
+	local componentsToAdd ={}
 
 	for _, component in ipairs({ ... }) do
 		if type(component) ~= "table" then
-			error("Component must be a table")
+			return nil, "Component must be a table"
 		end
-		if not component.type then
-			error("Component must have a 'type' field")
+		if not component.name then
+			return nil, "Component must have a 'name' field"
 		end
-		table.insert(self.components, component)
+		if not component.data then
+			return nil, "Component must have a 'data' field"
+		end
+
+		table.insert(componentsToAdd, component)
 	end
+
+	for _, value in ipairs(componentsToAdd) do
+		self.components[value.name] = value.data
+
+		print("Adding component: " .. value.name .. " with data:")
+		for k, v in pairs(value.data) do
+			print("  " .. tostring(k) .. ": " .. tostring(v))
+		end
+	end
+
+	return self, nil
 end
 
 function Entity:getComponent(componentType)
 	if not self.components then
-		return nil
+		return nil, "Entity has no components table."
 	end
 	for _, component in ipairs(self.components) do
 		if component.type == componentType then
-			return component
+			return component, nil
 		end
 	end
-	return nil
+	return nil, "Component of type '" .. componentType .. "' not found in entity."
 end
 
-function Entity.__call(...)
-	return Entity:new(...)
+function Entity:__call()
+	local instances = { components = {} }
+	setmetatable(instances, Entity)
+	return instances
 end
 
-return Entity
+Entity.__index = Entity
+return setmetatable(Entity, Entity)

@@ -1,4 +1,12 @@
 require("require")
+
+Entities = require("ecs.entities")
+Entity = require("ecs.entity")
+Component = require("ecs.components")
+Systems = require("ecs.systems")
+Rectangle = require("components.Rectangle")
+DrawRectangle = require("systems.DrawRectangle")
+
 StateManager = require("states.state-manager")
 StateDebug = require("states.state-debug")
 StateOne = require("states.state-one")
@@ -7,8 +15,15 @@ local states = StateManager:new()
 local debugState = StateDebug:new()
 
 function love.load()
+	print("Loading Mouse Position Example...")
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
+
+	local entity = Entity()
+	local rectangle = Rectangle()
+	Entities:addEntity(entity:addComponent(rectangle))
+	Systems:addToDraw(DrawRectangle)
+
 
 	states:addState("one", StateOne:new())
 	states:addState("two", StateOne:new())
@@ -36,9 +51,11 @@ end
 
 function love.update(dt)
 	states:update(dt)
+	Systems:update(dt)
 end
 
 function love.draw()
 	states:draw()
 	debugState:draw()
+	Systems:draw()
 end
