@@ -1,10 +1,10 @@
 require("require")
 
-Entities = require("ecs.entities")
-Component = require("ecs.components")
-Systems = require("ecs.systems")
+Entities = require("src.ecs.entities.init")
+Components = require("ecs.components")
+Systems = require("src.ecs.systems.init")
 Rectangle = require("components.Rectangle")
-DrawRectangle = require("systems.DrawRectangle")
+DrawRectangle = require("src.ecs.systems.DrawRectangle")
 
 StateManager = require("states.state-manager")
 StateDebug = require("states.state-debug")
@@ -18,10 +18,21 @@ function love.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 
-	Entities:addEntity(Rectangle())
-	Entities:addEntity(Rectangle())
-	Systems:addToDraw(DrawRectangle)
+	local rectOne = Rectangle()
+	local rectTwo = Rectangle()
 
+	print("Rectangle One: ", rectOne.name)
+	print("Rectangle Two: ", rectTwo.data.x)
+
+	local one, errOne = Entities:addEntity(rectOne)
+	local two, errTwo = Entities:addEntity(rectTwo)
+	if errOne then
+		print("Error adding entity one: " .. errOne)
+	end
+	if errTwo then
+		print("Error adding entity two: " .. errTwo)
+	end
+	Systems:addToDraw(DrawRectangle)
 
 	states:addState("one", StateOne:new())
 	states:addState("two", StateOne:new())
