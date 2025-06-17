@@ -41,8 +41,10 @@ end
 function Entities:getEntitiesByComponent(componentType)
 	local result = {}
 	for _, entity in ipairs(self.entities) do
-		for name, component in pairs(entity.components) do
-			print("Checking component type: " .. tostring(component.name))
+		print("Checking entity with id: " .. tostring(entity.id))
+		print("Entity components: " .. entity.components)
+		for _, component in ipairs(entity.components) do
+			print("Checking component type: " .. tostring(component.type))
 			if component.type == componentType then
 				print("Found component of type: " .. tostring(componentType) .. " in entity with id: " .. tostring(entity.id))
 				table.insert(result, entity)

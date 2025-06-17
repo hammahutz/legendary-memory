@@ -2,13 +2,12 @@ local DrawRectangle = {}
 DrawRectangle.__index = DrawRectangle
 
 function DrawRectangle:draw()
-    local entiteis = Entities:getEntitiesByComponent("Rectangle")
-    for _, entity in ipairs(entiteis) do
-    print("DrawRectangle")
+    local entities = Entities:getEntitiesByComponent("Rectangle")
+    for _, entity in ipairs(entities) do
         local rectangle = entity:getComponent("Rectangle")
-        if rectangle then
-            love.graphics.setColor(rectangle.data.color)
-            love.graphics.rectangle("fill", rectangle.data.x, rectangle.data.y, rectangle.data.width, rectangle.data.height)
+        if rectangle ~= nil then
+            love.graphics.setColor(rectangle.color)
+            love.graphics.rectangle("fill", rectangle.x, rectangle.y, rectangle.width, rectangle.height)
         end
     end
 end

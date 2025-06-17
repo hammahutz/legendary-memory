@@ -1,9 +1,11 @@
 local Entity = {}
+Entity.__index = Entity
+setmetatable(Entity, Entity)
 
 function Entity:addComponent(...)
-	local componentsToAdd ={}
+	local componentsToAdd = {}
 
-	for _, component in ipairs({ ... }) do
+	for _, component in pairs({ ... }) do
 		if type(component) ~= "table" then
 			return nil, "Component must be a table"
 		end
@@ -33,19 +35,18 @@ function Entity:getComponent(componentType)
 	if not self.components then
 		return nil, "Entity has no components table."
 	end
-	for _, component in ipairs(self.components) do
-		if component.type == componentType then
+	for name, component in pairs(self.components) do
+		if name == componentType then
 			return component, nil
 		end
 	end
 	return nil, "Component of type '" .. componentType .. "' not found in entity."
 end
 
-function Entity:__call()
-	local instances = { components = {} }
-	setmetatable(instances, Entity)
-	return instances
+function Entity:__call(...)
+	local instance = setmetatable({ components = {} }, Entity)
+	instance:addComponent(...)
+	return instance
 end
 
-Entity.__index = Entity
 return setmetatable(Entity, Entity)

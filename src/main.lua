@@ -1,7 +1,6 @@
 require("require")
 
 Entities = require("ecs.entities")
-Entity = require("ecs.entity")
 Component = require("ecs.components")
 Systems = require("ecs.systems")
 Rectangle = require("components.Rectangle")
@@ -19,9 +18,8 @@ function love.load()
 	love.window.setTitle("Mouse Position Example")
 	love.window.setMode(800, 600)
 
-	local entity = Entity()
-	local rectangle = Rectangle()
-	Entities:addEntity(entity:addComponent(rectangle))
+	Entities:addEntity(Rectangle())
+	Entities:addEntity(Rectangle())
 	Systems:addToDraw(DrawRectangle)
 
 
