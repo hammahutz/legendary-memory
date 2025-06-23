@@ -1,12 +1,10 @@
 local Entity = {}
 Entity.__index = Entity
-setmetatable(Entity, Entity)
 
 function Entity:addComponent(...)
 	for _, rawComponent in pairs({ ... }) do
 		local component, err = self:validateComponent(rawComponent)
 		if component then
-			print(component.name, component.data)
 			self.components[component.name] = component.data
 		else
 			return nil, "Failed to create component: " .. tostring(err)

@@ -1,7 +1,7 @@
 local Ecs = {
-	Components = require("ecs.components"),
-	Entities = require("ecs.entities"),
-	Systems = require("ecs.systems"),
+	Components = require("src.ecs.components"),
+	Entities = require("src.ecs.entities"),
+	Systems = require("src.ecs.systems"),
 }
 
 return Ecs

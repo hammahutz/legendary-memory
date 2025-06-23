@@ -1,7 +1,7 @@
 local Systems = {
 	drawable = {},
 	updatable = {},
-	DrawRectangle = require("ecs.systems.DrawRectangle"),
+	DrawRectangle = require("src.ecs.systems.draw_rectangle"),
 }
 Systems.__index = Systems
 
