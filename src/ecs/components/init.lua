@@ -1,5 +1,8 @@
 local Components = {
-    Rectangle = require("src.ecs.components.rectangle")
+    Color = require("src.ecs.components.color"),
+    Rectangle = require("src.ecs.components.rectangle"),
+    Position = require("src.ecs.components.position"),
+    Velocity = require("src.ecs.components.velocity"),
 }
 Components.__index = Components
 

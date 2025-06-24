@@ -3,7 +3,7 @@ draw_rectangle.__index = draw_rectangle
 local Entities = require("src.ecs.entities")
 
 function draw_rectangle:draw()
-    local entities, err = Entities:getEntitiesByComponent("Rectangle")
+    local entities, err = Entities:getEntitiesByComponent("rectangle")
     if err or not entities then
 
 			print(err)
@@ -11,7 +11,7 @@ function draw_rectangle:draw()
     end
 
     for _, entity in ipairs(entities) do
-        local rectangle, err = entity:getComponent("Rectangle")
+        local rectangle, err = entity:getComponent("rectangle")
         if rectangle then
             love.graphics.setColor(rectangle.color)
             love.graphics.rectangle("fill", rectangle.x, rectangle.y, rectangle.width, rectangle.height)
